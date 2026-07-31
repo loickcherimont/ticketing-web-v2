@@ -1,9 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { LoginService } from '../login-form/login-service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-customer',
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './customer.html',
   styleUrl: './customer.scss'
 })
-export class Customer {}
+export class Customer {
+  private loginService = inject(LoginService);
+
+  logout() {
+    this.loginService.logout();
+  }
+}
