@@ -1,0 +1,23 @@
+.login-page {
+  // 100dvh au lieu de 100vh : la barre d'adresse du mobile réduit le viewport,
+  // 100vh provoquerait un débordement vertical.
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.login-form__field {
+  width: 100%;
+}
+
+.login-form__error-message {
+  color: var(--mat-sys-error);
+}

@@ -1,0 +1,23 @@
+<div class='login-page'>
+  <h2>Se connecter</h2>
+  <form class='login-form' [formRoot]='loginForm'>
+    @if (loginForm().getError('login-failed')?.message; as globalErrorMessage) {
+      <p class='login-form__error-message'>{{ globalErrorMessage }}</p>
+    }
+    <mat-form-field class='login-form__field' appearance='fill'>
+      <mat-label>Email</mat-label>
+      <input matInput [formField]='loginForm.email' type='email'>
+      @if (loginForm.email().getError('required')?.message) {
+      <mat-error>L'email est requis</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class='login-form__field' appearance='fill'>
+      <mat-label>Mot de passe</mat-label>
+      <input matInput [formField]='loginForm.password' type='password'>
+      @if (loginForm.password().getError('required')?.message) {
+      <mat-error>Le mot de passe est requis</mat-error>
+      }
+    </mat-form-field>
+    <button matButton='filled' type='submit'>S'authentifier</button>
+  </form>
+</div>
