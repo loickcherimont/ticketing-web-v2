@@ -1,12 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { LoginService } from '../login-form/login-service';
 
 @Component({
   selector: 'app-agent',
-  imports: [MatButtonModule],
+  imports: [],
   templateUrl: './agent.html',
-  styleUrl: './agent.scss'
 })
 export class Agent {
 
