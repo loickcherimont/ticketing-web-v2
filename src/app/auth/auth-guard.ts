@@ -1,27 +1,18 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { LoginService } from '../login-form/login-service';
+import { AuthService } from './auth.service';
 
+/**
+ * Allows the route only when the user is authenticated.
+ * Redirects to `/login` otherwise.
+ */
 export const authGuard: CanActivateFn = () => {
 
-  const loginService = inject(LoginService);
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (loginService.isAuthenticated()) {
+  if (authService.isAuthenticated()) {
     return true;
   }
   return router.createUrlTree(['/login']);
 };
-
-export const roleGuard = (requiredRole: 'USER' | 'AGENT'): CanActivateFn => {
-  return () => {
-    const loginService = inject(LoginService);
-    const router = inject(Router);
-
-    if (loginService.role() === requiredRole) {
-      return true;
-    }
-
-    return router.createUrlTree(['/forbidden']);
-  }
-}

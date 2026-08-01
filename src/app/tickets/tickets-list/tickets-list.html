@@ -1,0 +1,75 @@
+<div class='container-fluid py-4'>
+  <div class='d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4'>
+    <h2 class='mb-0'>Tickets</h2>
+    <div class='d-flex gap-2'>
+      <button class='btn btn-primary' (click)='newTicket()'>Nouveau Ticket</button>
+      <button class='btn btn-outline-danger' (click)='logout()'>Se déconnecter</button>
+    </div>
+  </div>
+
+  @if (errorMessage(); as message) {
+  <div class='alert alert-danger py-2' role='alert'>{{ message }}</div>
+  }
+
+  @if (tickets().length === 0) {
+  <div class='alert alert-info'>Aucun ticket pour le moment.</div>
+  } @else {
+  <div class='table-responsive'>
+    <table class='table table-striped table-hover align-middle'>
+      <thead class='table-light'>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>Description</th>
+          <th>Statut</th>
+          @if (isAgent()) {
+          <th>Actions</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (ticket of tickets(); track ticket.id) {
+        <tr>
+          <td class='text-nowrap'>{{ ticket.id }}</td>
+          <td class='fw-semibold'><a class='text-decoration-none' [routerLink]="['/tickets', ticket.id]">{{ ticket.title }}</a></td>
+          <td>{{ ticket.description }}</td>
+          <td>
+            <span class='badge {{ statusBadge(ticket.status) }}'>{{ statusLabel(ticket.status) }}</span>
+          </td>
+          @if (isAgent()) {
+          <td>
+            <button class='btn btn-sm btn-outline-primary me-2' (click)='setInProgress(ticket)'>En cours</button>
+            <button class='btn btn-sm btn-outline-success' (click)='openSolveModal(ticket)'>Résoudre</button>
+          </td>
+          }
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+
+  @if (solveTarget(); as target) {
+  <div class='modal fade show d-block' tabindex='-1' role='dialog' aria-modal='true'>
+    <div class='modal-dialog'>
+      <div class='modal-content'>
+        <div class='modal-header'>
+          <h5 class='modal-title'>Résoudre le ticket</h5>
+          <button type='button' class='btn-close' aria-label='Fermer' (click)='closeSolveModal()'></button>
+        </div>
+        <div class='modal-body'>
+          <p class='mb-3 fw-semibold'>{{ target.title }}</p>
+          <label class='form-label' for='solution'>Solution</label>
+          <textarea id='solution' class='form-control' rows='4' [value]='solution()'
+            (input)='onSolutionInput($event)' placeholder='Décrivez la solution apportée'></textarea>
+        </div>
+        <div class='modal-footer'>
+          <button type='button' class='btn btn-secondary' (click)='closeSolveModal()'>Annuler</button>
+          <button type='button' class='btn btn-success' (click)='submitSolution()'>Valider la solution</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='modal-backdrop fade show'></div>
+  }
+</div>

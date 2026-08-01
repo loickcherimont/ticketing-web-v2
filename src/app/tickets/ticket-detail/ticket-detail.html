@@ -1,0 +1,27 @@
+<section class="container py-4">
+  <div class='mb-3'>
+    <button class='btn btn-outline-secondary' (click)='goBack()'>Retour aux tickets</button>
+  </div>
+
+  @if (errorMessage(); as message) {
+  <div class='alert alert-danger py-2' role='alert'>{{ message }}</div>
+  }
+
+  @if (ticket(); as t) {
+  <div class='card'>
+    <div class='card-header d-flex flex-wrap justify-content-between align-items-center gap-2'>
+      <h2 class='mb-0'>{{ t.title }}</h2>
+      <span class='badge {{ statusBadge(t.status) }}'>{{ statusLabel(t.status) }}</span>
+    </div>
+    <div class='card-body'>
+      <p class='text-body-secondary small mb-3'>ID : <code>{{ t.id }}</code></p>
+      <p class='mb-3'>{{ t.description }}</p>
+      @if (t.solution) {
+      <div class='alert alert-success mb-0'>
+        <strong>Solution :</strong> {{ t.solution }}
+      </div>
+      }
+    </div>
+  </div>
+  }
+</section>
