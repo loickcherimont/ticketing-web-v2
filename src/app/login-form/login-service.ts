@@ -20,9 +20,9 @@ export class LoginService {
   homePath = computed(() => {
     switch (this.role()) {
       case 'AGENT':
-        return '/agent';
+        return '/agent/dashboard';
       case 'USER':
-        return '/customer';
+        return '/customer/home';
       default:
         return '/login';
     }

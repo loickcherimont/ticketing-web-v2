@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { LoginService } from '../login-form/login-service';
 
@@ -10,10 +10,5 @@ import { LoginService } from '../login-form/login-service';
 export class Forbidden {
   private loginService = inject(LoginService);
 
-  pathUrl = computed(() => {
-    if (this.loginService.role() === 'AGENT') {
-      return '/agent';
-    }
-    return '/customer';
-  })
+  protected authorizedPath = signal(this.loginService.homePath()); 
 }
