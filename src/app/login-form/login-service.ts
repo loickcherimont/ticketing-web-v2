@@ -17,6 +17,16 @@ export class LoginService {
   isAuthenticated = computed(() => this.loginResponse() !== null);
   token = computed(() => this.loginResponse()?.token ?? null);
   role = computed(() => this.loginResponse()?.role ?? null);
+  homePath = computed(() => {
+    switch (this.role()) {
+      case 'AGENT':
+        return '/agent';
+      case 'USER':
+        return '/customer';
+      default:
+        return '/login';
+    }
+  });
 
   storeCredentials(credentials: LoginResponseDto) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(credentials));
@@ -40,9 +50,11 @@ export class LoginService {
     }
     try {
       return JSON.parse(raw) as LoginResponseDto;
-    } catch { 
+    } catch {
       return null;
     }
   }
+
+
 
 }

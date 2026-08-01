@@ -29,12 +29,7 @@ export class LoginForm {
       action: async (field) => {
         try {
           await firstValueFrom(this.loginService.login(field().value()));
-          if (this.loginService.role() === 'AGENT') {
-            this.router.navigate(['/agent']);
-
-          } else if (this.loginService.role() === 'USER') {
-            this.router.navigate(['/customer']);
-          }
+          this.router.navigate([this.loginService.homePath()]);
           return undefined;
         } catch (e: unknown) {
           const message = e instanceof Error ? e.message : 'Email et/ou mot de passe incorrect'
