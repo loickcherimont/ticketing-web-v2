@@ -1,23 +1,33 @@
-<div class='login-page'>
-  <h2>Se connecter</h2>
-  <form class='login-form' [formRoot]='loginForm'>
-    @if (loginForm().getError('login-failed')?.message; as globalErrorMessage) {
-      <p class='login-form__error-message'>{{ globalErrorMessage }}</p>
-    }
-    <mat-form-field class='login-form__field' appearance='fill'>
-      <mat-label>Email</mat-label>
-      <input matInput [formField]='loginForm.email' type='email'>
-      @if (loginForm.email().getError('required')?.message) {
-      <mat-error>L'email est requis</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field class='login-form__field' appearance='fill'>
-      <mat-label>Mot de passe</mat-label>
-      <input matInput [formField]='loginForm.password' type='password'>
-      @if (loginForm.password().getError('required')?.message) {
-      <mat-error>Le mot de passe est requis</mat-error>
-      }
-    </mat-form-field>
-    <button matButton='filled' type='submit'>S'authentifier</button>
-  </form>
-</div>
+<section class="login-page">
+  <div class='container'>
+    <div class='row justify-content-center'>
+      <div class='col-12 col-sm-8 col-md-6 col-lg-4'>
+        <div class='card shadow-sm'>
+          <h2 class='card-title text-center mb-4'>Se connecter</h2>
+          <div class='card-body p-4'>
+            <form [formRoot]='loginForm'>
+              @if (loginForm().getError('login-failed')?.message; as globalErrorMessage) {
+              <div class='alert alert-danger py-2' role='alert'>{{ globalErrorMessage }}</div>
+              }
+              <div class='mb-3'>
+                <label class='form-label' for='email'>Email</label>
+                <input id='email' class='form-control' [formField]='loginForm.email' type='email'>
+                @if (loginForm.email().getError('required')?.message) {
+                <div class='text-danger small mt-1'>L'email est requis</div>
+                }
+              </div>
+              <div class='mb-3'>
+                <label class='form-label' for='password'>Mot de passe</label>
+                <input id='password' class='form-control' [formField]='loginForm.password' type='password'>
+                @if (loginForm.password().getError('required')?.message) {
+                <div class='text-danger small mt-1'>Le mot de passe est requis</div>
+                }
+              </div>
+              <button class='btn btn-primary w-100' type='submit'>S'authentifier</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

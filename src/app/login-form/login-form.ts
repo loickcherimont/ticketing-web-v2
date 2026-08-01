@@ -1,7 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { LoginModel } from './login-model';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { LoginService } from './login-service';
@@ -10,7 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
-  imports: [MatFormFieldModule, MatInputModule, MatButtonModule, FormField, FormRoot],
+  imports: [FormField, FormRoot],
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
