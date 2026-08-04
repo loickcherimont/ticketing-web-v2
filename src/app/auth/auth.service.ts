@@ -18,7 +18,7 @@ import { LoginResponseDto } from './login-response-dto';
 export class AuthService {
 
   /** localStorage key used to persist credentials (JWT + profile). */
-  private readonly STORAGE_KEY = 'credentials';
+  readonly STORAGE_KEY = 'credentials';
 
   private http = inject(HttpClient);
   private router = inject(Router);
