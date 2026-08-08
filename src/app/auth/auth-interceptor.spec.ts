@@ -9,7 +9,7 @@ describe('authInterceptor', () => {
   let authServiceMock: { token: ReturnType<typeof vi.fn>, logout: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
-    authServiceMock = { token: vi.fn(), logout: vi.fn() };
+    authServiceMock = { token: vi.fn(), logout: vi.fn(  ) };
     TestBed.configureTestingModule({
       providers: [{ provide: AuthService, useValue: authServiceMock }],
     });
