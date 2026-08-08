@@ -1,3 +1,3 @@
 export const environment = {
-	apiUrl: 'ticketing-api-production-92ac.up.railway.app/api',
+	apiUrl: 'http://ticketing-api-production-92ac.up.railway.app:8080/api',
 };
