@@ -78,6 +78,9 @@
           "options": {
             "coverageReporters": ["html", "text-summary"]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
