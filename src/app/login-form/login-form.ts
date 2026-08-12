@@ -4,6 +4,7 @@ import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { AuthService } from '../auth/auth.service';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { getErrorMessage } from '../common/api-error';
 
 @Component({
   selector: 'app-login-form',
@@ -22,8 +23,8 @@ export class LoginForm {
   });
 
   loginForm = form(this.loginModel, (schemaPath) => {
-    required(schemaPath.email, { message: 'Email requis' });
-    required(schemaPath.password, { message: 'Mot de passe requis' });
+    required(schemaPath.email, { message: 'L\'email est requis' });
+    required(schemaPath.password, { message: 'Le mot de passe est requis' });
   }, {
     submission: {
       action: async (field) => {
@@ -32,7 +33,7 @@ export class LoginForm {
           this.router.navigate([this.authService.homePath()]);
           return undefined;
         } catch (e: unknown) {
-          const message = e instanceof Error ? e.message : 'Email et/ou mot de passe incorrect'
+          const message = getErrorMessage(e, 'Email et/ou mot de passe incorrect');
           return { kind: 'login-failed', message }
         }
       }

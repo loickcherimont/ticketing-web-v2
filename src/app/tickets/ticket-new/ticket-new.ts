@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { TicketService } from '../ticket.service';
 import { CreateTicketInput } from '../ticket.model';
+import { getErrorMessage } from '../../common/api-error';
 
 @Component({
   selector: 'app-ticket-new',
@@ -33,10 +34,10 @@ export class TicketNew {
           await firstValueFrom(this.ticketService.createTicket(field().value()));
           this.router.navigate(['/tickets']);
           return undefined;
-        } catch {
+        } catch (e: unknown) {
           return {
             kind: 'create-failed',
-            message: 'Impossible de créer le ticket. Vérifiez que l\'API est accessible.'
+            message:  getErrorMessage(e, 'Impossible de créer le ticket. Vérifiez que l\'API est accessible.')
           };
         }
       }
