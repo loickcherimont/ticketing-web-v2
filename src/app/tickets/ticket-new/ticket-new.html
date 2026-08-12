@@ -11,15 +11,15 @@
             <div class='mb-3'>
               <label class='form-label' for='title'>Titre</label>
               <input id='title' class='form-control' [formField]='ticketForm.title' type='text'>
-              @if (ticketForm.title().getError('required')?.message) {
-              <div class='text-danger small mt-1'>Le titre est requis</div>
+              @if (ticketForm.title().touched() && ticketForm.description().invalid()) {
+              <div class='text-danger small mt-1'>{{ ticketForm.title().getError('required')?.message }}</div>
               }
             </div>
             <div class='mb-3'>
               <label class='form-label' for='description'>Description</label>
               <textarea id='description' class='form-control' [formField]='ticketForm.description' rows='4'></textarea>
-              @if (ticketForm.description().getError('required')?.message) {
-              <div class='text-danger small mt-1'>La description est requise</div>
+              @if (ticketForm.description().touched() && ticketForm.description().invalid()) {
+              <div class='text-danger small mt-1'>{{ ticketForm.description().getError('required')?.message }}</div>
               }
             </div>
             <div class='d-flex gap-2'>

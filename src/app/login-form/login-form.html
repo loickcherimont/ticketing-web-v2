@@ -12,15 +12,15 @@
               <div class='mb-3'>
                 <label class='form-label' for='email'>Email</label>
                 <input id='email' class='form-control' [formField]='loginForm.email' type='email'>
-                @if (loginForm.email().getError('required')?.message) {
-                <div class='text-danger small mt-1'>L'email est requis</div>
+                @if (loginForm.email().touched() && loginForm.email().invalid()) {
+                <div class='text-danger small mt-1'>{{ loginForm.email().getError('required')?.message }}</div>
                 }
               </div>
               <div class='mb-3'>
                 <label class='form-label' for='password'>Mot de passe</label>
                 <input id='password' class='form-control' [formField]='loginForm.password' type='password'>
-                @if (loginForm.password().getError('required')?.message) {
-                <div class='text-danger small mt-1'>Le mot de passe est requis</div>
+                @if (loginForm.password().touched() && loginForm.password().invalid()) {
+                <div class='text-danger small mt-1'>{{ loginForm.password().getError('required')?.message }}</div>
                 }
               </div>
               <button class='btn btn-primary w-100' type='submit'>S'authentifier</button>
