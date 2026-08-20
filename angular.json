@@ -33,6 +33,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/ticketing-web-v2/",
               "budgets": [
                 {
                   "type": "initial",
