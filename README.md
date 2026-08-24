@@ -1,59 +1,110 @@
-# TicketingWebV2
+# 🎧 Ticketing Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.2.
+Front-end SPA built with **Angular** for helpdesk ticket tracking and resolution. It consumes the [Ticketing API](https://github.com/loickcherimont/ticketing-api) with JWT authentication and role-based access (USER / AGENT).
 
-## Development server
+## Live Demo
 
-To start a local development server, run:
+→ https://loickcherimont.github.io/ticketing-web-v2
+
+> [!IMPORTANT]
+> Test credentials (same as the API):
+>
+> | Role | Email | Password |
+> |------|-------|----------|
+> | USER | `john.doe@gmail.com` | `test123` |
+> | AGENT | `agent@company.com` | `agent123` |
+
+## Related Project
+
+This frontend is the companion to the Spring Boot backend:
+
+- **API repository** → https://github.com/loickcherimont/ticketing-api
+- **API documentation (Swagger UI)** → https://ticketing-api-production-92ac.up.railway.app/
+
+For JWT flow, endpoint details, and `curl` examples, see the [API README](https://github.com/loickcherimont/ticketing-api#readme).
+
+## 🖥️ Tech Stack
+
+**Frontend:**
+
+- **Angular 22** — standalone components, signals, reactive forms
+- **Bootstrap 5.3** — responsive UI
+- **TypeScript 6** — strict typing aligned with API DTOs
+- **RxJS** — HTTP calls to the REST API
+
+**Testing:**
+
+- **Vitest** (via `@angular/build:unit-test`) — unit tests, not Karma/Jasmine
+
+**Hosting:**
+
+- **GitHub Pages** — production deployment (`angular-cli-ghpages`)
+
+## Features by Role
+
+Authentication uses a JWT stored in `localStorage` and attached to every API request via an HTTP interceptor.
+
+| Feature | Route | USER | AGENT |
+|---------|-------|------|-------|
+| Sign in | `/login` | ✅ | ✅ |
+| List tickets | `/tickets` | ✅ | ✅ |
+| Create ticket | `/tickets/new` | ✅ | ✅ |
+| Ticket detail | `/tickets/:id` | ✅ | ✅ |
+| Claim ticket (En cours) | list action | ❌ | ✅ |
+| Resolve ticket (modal) | list action | ❌ | ✅ |
+
+## 🚀 Setup
+
+### Quick Start
 
 ```bash
+# 1. Clone repository
+git clone https://github.com/loickcherimont/ticketing-web-v2.git
+cd ticketing-web-v2
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the dev server
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The app is available at http://localhost:4200/ and targets the **local API** (`http://localhost:8080/api`) by default.
 
-## Code scaffolding
+### With Local API
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+To run against a local backend, start the [Ticketing API](https://github.com/loickcherimont/ticketing-api) first:
 
 ```bash
-ng generate --help
+git clone https://github.com/loickcherimont/ticketing-api.git
+cd ticketing-api
+docker compose up -d db
+SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run
 ```
 
-## Building
+See the [API setup guide](https://github.com/loickcherimont/ticketing-api#-setup) for full details.
 
-To build the project run:
+## ▶️ Usage
 
-```bash
-ng build
-```
+1. Open the app — unauthenticated users are redirected to `/login`.
+2. Sign in with the test credentials above.
+3. **USER** — click **Nouveau Ticket** to create a ticket, browse the list, and open a ticket for details.
+4. **AGENT** — use **En cours** to claim a ticket or **Résoudre** to close it with a solution.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+For HTTP-level details (endpoints, request/response payloads), refer to the [API README](https://github.com/loickcherimont/ticketing-api#-usage).
 
-## Running unit tests
+## Build, Test & Deploy
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+| Command | Purpose |
+|---------|---------|
+| `ng serve` | Dev server (development config) |
+| `ng build` | Production build → `dist/` |
+| `ng test` | Vitest unit tests |
+| `npm run test:coverage` | Tests with coverage report |
+| `ng deploy` | Deploy to GitHub Pages |
 
-```bash
-ng test
-```
+The production build automatically targets the **Railway API** via `src/environments/environment.ts`.
 
-## Running end-to-end tests
+## 🔑 License
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+<div align="center">Copyright &copy; 2026 | Loick CHERIMONT | All Rights Reserved.</div>
