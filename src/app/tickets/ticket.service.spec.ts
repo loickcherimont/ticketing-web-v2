@@ -34,6 +34,8 @@ describe('TicketService', () => {
         description: 'Impossible de se connecter',
         status: 'OPEN',
         solution: null,
+        createdByEmail: 'user@example.com',
+        assignedToEmail: null,
       },
       {
         id: 'ticket-2',
@@ -41,6 +43,8 @@ describe('TicketService', () => {
         description: 'Erreur 500 au paiement',
         status: 'CLOSED',
         solution: 'Redis corrigé',
+        createdByEmail: 'user@example.com',
+        assignedToEmail: 'agent@co.com',
       },
     ];
     let received: Ticket[] | undefined;
@@ -63,6 +67,8 @@ describe('TicketService', () => {
       description: 'Impossible de se connecter',
       status: 'OPEN',
       solution: null,
+      createdByEmail: 'user@example.com',
+      assignedToEmail: null,
     };
     let received: Ticket | undefined;
 
@@ -84,11 +90,15 @@ describe('TicketService', () => {
       description: 'Impossible de se connecter',
       status: 'OPEN',
       solution: null,
+      createdByEmail: 'user@example.com',
+      assignedToEmail: null,
     };
     let received: Ticket | undefined;
     const input: CreateTicketInput = {
       title: 'Bug login',
       description: 'Impossible de se connecter',
+      createdByEmail: 'user@example.com',
+      assignedToEmail: null,
     };
 
     service.createTicket(input).subscribe((ticket) => {
@@ -110,6 +120,8 @@ describe('TicketService', () => {
       description: 'Impossible de se connecter',
       status: 'IN_PROGRESS',
       solution: null,
+      createdByEmail: 'user@example.com',
+      assignedToEmail: null,
     };
     let received: Ticket | undefined;
 
@@ -132,6 +144,8 @@ describe('TicketService', () => {
       description: 'Impossible de se connecter',
       status: 'CLOSED',
       solution: 'fix',
+      createdByEmail: 'user@example.com',
+      assignedToEmail: 'agent@co.com',
     };
     let received: Ticket | undefined;
 

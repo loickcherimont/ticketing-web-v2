@@ -1,0 +1,8 @@
+// Fills the area between the header and the footer (application shell) and
+// centers its content vertically.
+.not-found-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

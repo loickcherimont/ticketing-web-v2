@@ -18,10 +18,15 @@ export class TicketNew {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  /** Email of the authenticated user, used as the ticket creator. */
+  private currentUserEmail = this.authService.loginState()?.email ?? '';
+
   /** Form values sent to `POST /api/tickets`. */
   ticketInput = signal<CreateTicketInput>({
     title: '',
-    description: ''
+    description: '',
+    createdByEmail: this.currentUserEmail,
+    assignedToEmail: null,
   });
 
   ticketForm = form(this.ticketInput, (schemaPath) => {

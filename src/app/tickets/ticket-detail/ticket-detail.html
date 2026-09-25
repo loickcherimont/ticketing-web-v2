@@ -1,4 +1,4 @@
-<section class="container py-4">
+<div class='container py-4'>
   <div class='mb-3'>
     <button class='btn btn-outline-secondary' (click)='goBack()'>Retour aux tickets</button>
   </div>
@@ -8,20 +8,39 @@
   }
 
   @if (ticket(); as t) {
-  <div class='card'>
-    <div class='card-header d-flex flex-wrap justify-content-between align-items-center gap-2'>
-      <h2 class='mb-0'>{{ t.title }}</h2>
-      <span class='badge {{ statusBadge(t.status) }}'>{{ statusLabel(t.status) }}</span>
+  <header class='ticket-header'>
+    <div>
+      <div class='text-body-secondary fw-semibold small mb-1'>Incident #{{ t.id }}</div>
+      <h1 class='mb-0'>{{ t.title }}</h1>
     </div>
-    <div class='card-body'>
-      <p class='text-body-secondary small mb-3'>ID : <code>{{ t.id }}</code></p>
-      <p class='mb-3'>{{ t.description }}</p>
-      @if (t.solution) {
-      <div class='alert alert-success mb-0'>
-        <strong>Solution :</strong> {{ t.solution }}
-      </div>
-      }
+    <input class='form-control status-field {{ statusClass(t.status) }}' [value]='statusLabel(t.status)' disabled>
+  </header>
+
+  <div class='row g-4'>
+    <div class='col-12 col-md-6 col-lg-3'>
+      <label class='form-label'>Type</label>
+      <input class='form-control' value='INCIDENT' disabled>
+    </div>
+    <div class='col-12 col-md-6 col-lg-3'>
+      <label class='form-label'>Créé par</label>
+      <input class='form-control' [value]='t.createdByEmail' disabled>
+    </div>
+    <div class='col-12 col-md-6 col-lg-3'>
+      <label class='form-label'>Assigné à</label>
+      <input class='form-control' [value]='t.assignedToEmail ?? "—"' disabled>
     </div>
   </div>
+
+  <div class='mt-4'>
+    <label class='form-label'>Description</label>
+    <textarea class='form-control' rows='5' [value]='t.description' disabled></textarea>
+  </div>
+
+  @if (t.solution) {
+  <div class='mt-4'>
+    <h4 class='solution-title'>Solution</h4>
+    <textarea class='form-control' rows='3' [value]='t.solution' disabled></textarea>
+  </div>
   }
-</section>
+  }
+</div>

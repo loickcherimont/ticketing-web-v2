@@ -1,9 +1,7 @@
-// La page occupe toute la hauteur du viewport (100dvh au lieu de 100vh pour
-// éviter un débordement vertical sur mobile avec barre d'adresse rétractable)
-// et agit comme conteneur flex pour centrer la carte.
+// Fills the area between the header and the footer (application shell) and
+// acts as a flex container to center the content.
 .login-page {
-  min-height: 100dvh;
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
 }

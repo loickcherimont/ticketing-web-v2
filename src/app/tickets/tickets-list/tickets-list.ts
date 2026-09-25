@@ -3,11 +3,13 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket.model';
+import { statusClass as ticketStatusClass, statusLabel as ticketStatusLabel } from '../ticket-status';
 
 @Component({
   selector: 'app-tickets-list',
   imports: [RouterLink],
   templateUrl: './tickets-list.html',
+  styleUrl: './tickets-list.scss',
 })
 export class TicketsList implements OnInit {
 
@@ -82,9 +84,26 @@ export class TicketsList implements OnInit {
     });
   }
 
+  /** Stops the row-navigation click, then marks the ticket as `IN_PROGRESS`. */
+  onSetInProgress(event: Event, ticket: Ticket) {
+    event.stopPropagation();
+    this.setInProgress(ticket);
+  }
+
+  /** Stops the row-navigation click, then opens the "solve" modal. */
+  onOpenSolveModal(event: Event, ticket: Ticket) {
+    event.stopPropagation();
+    this.openSolveModal(ticket);
+  }
+
   /** Navigates to the ticket creation form. */
   newTicket() {
     this.router.navigate(['/tickets/new']);
+  }
+
+  /** Navigates to the ticket detail page. */
+  openDetail(ticket: Ticket) {
+    this.router.navigate(['/tickets', ticket.id]);
   }
 
   /** Logs the user out (clears session and redirects to `/login`). */
@@ -92,27 +111,13 @@ export class TicketsList implements OnInit {
     this.authService.logout();
   }
 
-  /** Bootstrap badge color for a given status. */
-  statusBadge(status: Ticket['status']): string {
-    switch (status) {
-      case 'OPEN':
-        return 'text-bg-info';
-      case 'IN_PROGRESS':
-        return 'text-bg-primary';
-      case 'CLOSED':
-        return 'text-bg-success';
-    }
+  /** Bootstrap `text-bg-*` class for a given status. */
+  statusClass(status: Ticket['status']): string {
+    return ticketStatusClass(status);
   }
 
   /** French label for a given status. */
   statusLabel(status: Ticket['status']): string {
-    switch (status) {
-      case 'OPEN':
-        return 'Ouvert';
-      case 'IN_PROGRESS':
-        return 'En cours';
-      case 'CLOSED':
-        return 'Résolu';
-    }
+    return ticketStatusLabel(status);
   }
 }

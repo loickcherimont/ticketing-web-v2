@@ -2,7 +2,8 @@
   <div class='d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4'>
     <h2 class='mb-0'>Tickets</h2>
     <div class='d-flex gap-2'>
-      <button class='btn btn-primary' (click)='newTicket()'>Nouveau Ticket</button>
+      <button class='btn btn-primary' (click)='newTicket()'>Nouveau ticket</button>
+      <button class='btn btn-outline-secondary' (click)='loadTickets()'>Actualiser</button>
       <button class='btn btn-outline-danger' (click)='logout()'>Se déconnecter</button>
     </div>
   </div>
@@ -14,38 +15,54 @@
   @if (tickets().length === 0) {
   <div class='alert alert-info'>Aucun ticket pour le moment.</div>
   } @else {
-  <div class='table-responsive'>
-    <table class='table table-striped table-hover align-middle'>
-      <thead class='table-light'>
-        <tr>
-          <th>ID</th>
-          <th>Titre</th>
-          <th>Description</th>
-          <th>Statut</th>
-          @if (isAgent()) {
-          <th>Actions</th>
+  <div class='card shadow-sm tickets-card'>
+    <div class='table-responsive'>
+      <table class='table table-hover align-middle mb-0'>
+        <thead class='table-light'>
+          <tr>
+            <th scope='col' class='col-header'>ID</th>
+            <th scope='col' class='col-header'>Titre</th>
+            <th scope='col' class='col-header'>Description</th>
+            <th scope='col' class='col-header'>Statut</th>
+            @if (isAgent()) {
+            <th scope='col' class='col-header'>Créé par</th>
+            <th scope='col' class='col-header'>Assigné à</th>
+            <th scope='col' class='col-header'>Actions</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (ticket of tickets(); track ticket.id) {
+          <tr class='ticket-row' (click)='openDetail(ticket)'>
+            <td class='ticket-id text-nowrap'>{{ ticket.id }}</td>
+            <td class='fw-semibold'><a class='text-decoration-none' [routerLink]="['/tickets', ticket.id]">{{ ticket.title
+                }}</a></td>
+            <td>{{ ticket.description }}</td>
+            <td>
+              <span class='status-field {{ statusClass(ticket.status) }}'>
+                <span class='status-dot' aria-hidden='true'></span>
+                {{ statusLabel(ticket.status) }}
+              </span>
+            </td>
+            @if (isAgent()) {
+            <td>{{ ticket.createdByEmail }}</td>
+            <td>
+              @if (ticket.assignedToEmail; as email) {
+              {{ email }}
+              } @else {
+              <span class='text-body-secondary'>—</span>
+              }
+            </td>
+            <td>
+              <button class='btn btn-sm btn-warning me-2' (click)='onSetInProgress($event, ticket)'>En cours</button>
+              <button class='btn btn-sm btn-success' (click)='onOpenSolveModal($event, ticket)'>Résoudre</button>
+            </td>
+            }
+          </tr>
           }
-        </tr>
-      </thead>
-      <tbody>
-        @for (ticket of tickets(); track ticket.id) {
-        <tr>
-          <td class='text-nowrap'>{{ ticket.id }}</td>
-          <td class='fw-semibold'><a class='text-decoration-none' [routerLink]="['/tickets', ticket.id]">{{ ticket.title }}</a></td>
-          <td>{{ ticket.description }}</td>
-          <td>
-            <span class='badge {{ statusBadge(ticket.status) }}'>{{ statusLabel(ticket.status) }}</span>
-          </td>
-          @if (isAgent()) {
-          <td>
-            <button class='btn btn-sm btn-outline-primary me-2' (click)='setInProgress(ticket)'>En cours</button>
-            <button class='btn btn-sm btn-outline-success' (click)='openSolveModal(ticket)'>Résoudre</button>
-          </td>
-          }
-        </tr>
-        }
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
   }
 
@@ -60,8 +77,8 @@
         <div class='modal-body'>
           <p class='mb-3 fw-semibold'>{{ target.title }}</p>
           <label class='form-label' for='solution'>Solution</label>
-          <textarea id='solution' class='form-control' rows='4' [value]='solution()'
-            (input)='onSolutionInput($event)' placeholder='Décrivez la solution apportée'></textarea>
+          <textarea id='solution' class='form-control' rows='4' [value]='solution()' (input)='onSolutionInput($event)'
+            placeholder='Décrivez la solution apportée'></textarea>
         </div>
         <div class='modal-footer'>
           <button type='button' class='btn btn-secondary' (click)='closeSolveModal()'>Annuler</button>

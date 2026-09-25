@@ -11,11 +11,14 @@ export interface Ticket {
   description: string;
   status: 'OPEN' | 'IN_PROGRESS' | 'CLOSED';
   solution: string | null;
+  createdByEmail: string;
+  assignedToEmail: string | null;
 }
 
 /**
  * Payload required to create a ticket: same shape as `Ticket` minus the
- * server-managed fields (id, status, solution). Mirrors the `TicketRequestDto`
- * of the backend.
+ * server-managed fields (id, status, solution), so it includes
+ * `createdByEmail` (the authenticated user) and `assignedToEmail` (`null`).
+ * Mirrors the `TicketRequestDto` of the backend.
  */
 export type CreateTicketInput = Omit<Ticket, 'id' | 'status' | 'solution'>;

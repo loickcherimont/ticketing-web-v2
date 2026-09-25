@@ -2,11 +2,13 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket.model';
+import { statusClass as ticketStatusClass, statusLabel as ticketStatusLabel } from '../ticket-status';
 
 @Component({
   selector: 'app-ticket-detail',
   imports: [],
   templateUrl: './ticket-detail.html',
+  styleUrl: './ticket-detail.scss',
 })
 export class TicketDetail implements OnInit {
 
@@ -40,27 +42,13 @@ export class TicketDetail implements OnInit {
     this.router.navigate(['/tickets']);
   }
 
-  /** Bootstrap badge color for a given status. */
-  statusBadge(status: Ticket['status']): string {
-    switch (status) {
-      case 'OPEN':
-        return 'text-bg-info';
-      case 'IN_PROGRESS':
-        return 'text-bg-primary';
-      case 'CLOSED':
-        return 'text-bg-success';
-    }
+  /** Bootstrap `text-bg-*` class for a given status. */
+  statusClass(status: Ticket['status']): string {
+    return ticketStatusClass(status);
   }
 
   /** French label for a given status. */
   statusLabel(status: Ticket['status']): string {
-    switch (status) {
-      case 'OPEN':
-        return 'Ouvert';
-      case 'IN_PROGRESS':
-        return 'En cours';
-      case 'CLOSED':
-        return 'Résolu';
-    }
+    return ticketStatusLabel(status);
   }
 }
