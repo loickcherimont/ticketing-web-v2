@@ -13,7 +13,12 @@
       <div class='text-body-secondary fw-semibold small mb-1'>Incident #{{ t.id }}</div>
       <h1 class='mb-0'>{{ t.title }}</h1>
     </div>
-    <input class='form-control status-field {{ statusClass(t.status) }}' [value]='statusLabel(t.status)' disabled>
+    <div>
+      <input class='form-control status-field {{ statusClass(t.status) }}' [value]='statusLabel(t.status)' disabled>
+      @if (isAgent()) {
+      <button class='btn btn-primary mt-2 w-100' (click)='assignToMe()'>M'assigner</button>
+      }
+    </div>
   </header>
 
   <div class='row g-4'>
