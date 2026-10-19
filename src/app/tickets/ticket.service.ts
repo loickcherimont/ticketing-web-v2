@@ -11,6 +11,7 @@ import { CreateTicketInput, Ticket } from './ticket.model';
  * - GET   /api/tickets                     -> list all tickets
  * - POST  /api/tickets                     -> create a ticket
  * - PATCH /api/tickets/{id}/in-progress    -> mark as IN_PROGRESS (agent only)
+ * - PATCH /api/tickets/{id}/assignee       -> assign the current agent (agent only)
  * - PATCH /api/tickets/{id}/solve          -> mark as CLOSED with a solution (agent only)
  */
 @Service()
@@ -39,6 +40,15 @@ export class TicketService {
    */
   setInProgress(id: string): Observable<Ticket> {
     return this.http.patch<Ticket>(`${this.BASE_URL}/${id}/in-progress`, null);
+  }
+
+  /**
+   * Assigns the connected agent to the ticket via
+   * `PATCH /api/tickets/{id}/assignee` with {id} is ticket id
+   * Requires the `AGENT` role; the backend resolves the agent from the JWT.
+   */
+  assign(id: string): Observable<Ticket> {
+    return this.http.patch<Ticket>(`${this.BASE_URL}/${id}/assignee`, null);
   }
 
   /**

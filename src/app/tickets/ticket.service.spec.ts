@@ -137,6 +137,30 @@ describe('TicketService', () => {
     expect(received).toEqual(expectedTicket);
   });
 
+  it('should assign the current agent to the ticket with PATCH', () => {
+    const expectedTicket: Ticket = {
+      id: 'ticket-1',
+      title: 'Bug login',
+      description: 'Impossible de se connecter',
+      status: 'OPEN',
+      solution: null,
+      createdByEmail: 'user@example.com',
+      assignedToEmail: 'agent@co.com',
+    };
+    let received: Ticket | undefined;
+
+    service.assign('ticket-1').subscribe((ticket) => {
+      received = ticket;
+    });
+
+    const req = httpTesting.expectOne(`${baseUrl}/ticket-1/assignee`);
+    expect(req.request.method).toBe('PATCH');
+    expect(req.request.body).toBeNull();
+    req.flush(expectedTicket);
+
+    expect(received).toEqual(expectedTicket);
+  });
+
   it('should solve the ticket with PATCH', () => {
     const expectedTicket: Ticket = {
       id: 'ticket-1',
